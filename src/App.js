@@ -21,7 +21,7 @@ const App = () => {
 
 //fetch tasks
   const fetchTasks = async () => {
-    const res = await fetch("https://git.io/mazin01/task-traker/master/db.json/tasks")
+    const res = await fetch("https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks")
     const data = await res.json()
     
     return data
@@ -29,7 +29,7 @@ const App = () => {
 
   //fetch task
   const fetchTask = async (id) => {
-    const res = await fetch(`https://git.io/mazin01/task-traker/master/db.json/tasks/${id}`)
+    const res = await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`)
     const data = await res.json()
     
     return data
@@ -37,7 +37,7 @@ const App = () => {
 
 //Add Task
 const addTask =async (task) => {
-  const res = await fetch('https://git.io/mazin01/task-traker/master/db.json/tasks',
+  const res = await fetch('https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks',
   {
     method: "POST",
     headers: {'content-type': 'application/json'},
@@ -53,7 +53,7 @@ const addTask =async (task) => {
 
 // Delete Task
 const deleteTask = async(id) => {
-  await fetch(`https://git.io/mazin01/task-traker/master/db.json/tasks/${id}`, {method : "DELETE",})
+  await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`, {method : "DELETE",})
 
   setTasks(tasks.filter((task) => task.id !== id))
 }
@@ -64,7 +64,7 @@ const toggleReminder = async (id) => {
   const updTask = { ...taskToToggle, 
   reminder : !taskToToggle.reminder}
 
-  const res = await fetch(`https://git.io/mazin01/task-traker/master/db.json/tasks/${id}`
+  const res = await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`
   , {method: 'PUT',
     headers: {'content-type': 'application/json'},
     body: JSON.stringify(updTask)})
