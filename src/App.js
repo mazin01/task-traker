@@ -5,6 +5,7 @@ import About from "./components/about"
 import Tasks from "./components/tasks";
 import AddTask from "./components/addTask";
 import { useState, useEffect } from "react";
+import {taskProvider} from './components/taskContext'
 
 const App = () => {
   const [ShowAddTask, setShowAddTask] = useState(false)
@@ -77,6 +78,7 @@ const toggleReminder = async (id) => {
 }
 
   return (
+    <taskProvider setTasks={() => setTasks} >
     <Router>
     <div className="container">
       <Header onAdd={() => setShowAddTask(!ShowAddTask)} showAdd={ShowAddTask} />
@@ -92,6 +94,7 @@ const toggleReminder = async (id) => {
       <Footer />
     </div>
     </Router>
+    </taskProvider>
   );
 }
 
