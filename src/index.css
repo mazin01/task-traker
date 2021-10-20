@@ -8,17 +8,20 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: rgb(180, 255, 255);
+  background: url("alexander-andrews-yOIT88xWkbg-unsplash.jpg") #101d2c;
+  background-size: 130% auto;
+  background-repeat: no-repeat;
 }
 
 .container {
-  max-width: 500px;
-  margin: 30px auto;
+  max-width: 600px;
+  margin: 50px auto;
   overflow: auto;
   min-height: 300px;
-  /* border: 1px solid rgb(0, 0, 0); */
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 10px;
+  background-color: rgba(90, 90, 90, 0.301);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 
 .header {
@@ -30,24 +33,24 @@ body {
 
 .btn {
   display: inline-block;
-  background: #000;
-  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
   border: none;
   padding: 10px 20px;
   margin: 5px;
-  border-radius: 5px;
+  border-radius: 7px;
   cursor: pointer;
   text-decoration: none;
   font-size: 15px;
   font-family: inherit;
 }
 
-.btn:focus {
-  outline: none;
+.btn:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.btn:active {
-  transform: scale(0.98);
+.btn:focus {
+  outline: none;
 }
 
 .btn-block {
@@ -56,14 +59,20 @@ body {
 }
 
 .task {
-  background: #f4f4f4;
+  background: #ffffff31;
   margin: 5px;
   padding: 10px 20px;
   cursor: pointer;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.task:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .task.reminder {
-  border-left: 5px solid rgb(0, 255, 0);
+  border-left: 5px solid #0084ffa9;
 }
 
 .task h3 {
@@ -90,6 +99,14 @@ body {
   margin: 5px;
   padding: 3px 7px;
   font-size: 17px;
+  border-radius: 4px;
+  border: none;
+  background-color: #e0e0e0a1;
+}
+
+.form-control input:focus {
+  background-color: rgba(255, 255, 255, 0.705);
+  outline: none;
 }
 
 .form-control-check {
@@ -110,4 +127,19 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #303030;
+}
+
+a:hover {
+  color: #000000;
+}
+
+.about {
+  margin: 30px 0px;
+  text-align: center;
+  color: #005000ce;
 }

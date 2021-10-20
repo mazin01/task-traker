@@ -1,14 +1,13 @@
-import Header from "./components/header"
-import {BrowserRouter as Router, Route} from 'react-router-dom'
-import Footer from "./components/footer"
-import About from "./components/about"
-import Tasks from "./components/tasks";
-import AddTask from "./components/addTask";
-import { useState, useEffect } from "react";
-import {taskProvider} from './components/taskContext'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Header from './components/header'
+import Footer from './components/footer'
+import Tasks from './components/tasks'
+import AddTask from './components/addTask'
+import About from './components/about'
 
 const App = () => {
-  const [ShowAddTask, setShowAddTask] = useState(false)
+  const [showAddTask, setShowAddTask] = useState(false)
   const [tasks, setTasks] = useState([])
 
   useEffect(() => {
@@ -20,82 +19,104 @@ const App = () => {
     getTasks()
   }, [])
 
-//fetch tasks
+  // Fetch Tasks
   const fetchTasks = async () => {
-    const res = await fetch("https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks")
+    const res = await fetch('http://localhost:8000/tasks')
     const data = await res.json()
-    
+
     return data
   }
 
-  //fetch task
+  // Fetch Task
   const fetchTask = async (id) => {
-    const res = await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`)
+    const res = await fetch(`http://localhost:8000/tasks/${id}`)
     const data = await res.json()
-    
+
     return data
   }
 
-//Add Task
-const addTask =async (task) => {
-  const res = await fetch('https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks',
-  {
-    method: "POST",
-    headers: {'content-type': 'application/json'},
-    body: JSON.stringify(task)
-  })
-  const data = await res.json()
-  setTasks([...tasks, data])
+  // Add Task
+  const addTask = async (task) => {
+    const res = await fetch('http://localhost:8000/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
 
-  //const id = Math.floor(Math.random() * 10000) + 1
-  //const newTask = {id, ...task}
-  //setTasks([...tasks, newTask])
-}
+    const data = await res.json()
 
-// Delete Task
-const deleteTask = async(id) => {
-  await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`, {method : "DELETE",})
+    setTasks([...tasks, data])
 
-  setTasks(tasks.filter((task) => task.id !== id))
-}
+    // const id = Math.floor(Math.random() * 10000) + 1
+    // const newTask = { id, ...task }
+    // setTasks([...tasks, newTask])
+  }
 
-// Toggle Reminder
-const toggleReminder = async (id) => {
-  const taskToToggle =await fetchTask(id)
-  const updTask = { ...taskToToggle, 
-  reminder : !taskToToggle.reminder}
+  // Delete Task
+  const deleteTask = async (id) => {
+    const res = await fetch(`http://localhost:8000/tasks/${id}`, {
+      method: 'DELETE',
+    })
+    //We should control the response status to decide if we will change the state or not.
+    res.status === 200
+      ? setTasks(tasks.filter((task) => task.id !== id))
+      : alert('Error Deleting This Task')
+  }
 
-  const res = await fetch(`https://raw.githubusercontent.com/mazin01/task-traker/master/db.json/tasks/${id}`
-  , {method: 'PUT',
-    headers: {'content-type': 'application/json'},
-    body: JSON.stringify(updTask)})
+  // Toggle Reminder
+  const toggleReminder = async (id) => {
+    const taskToToggle = await fetchTask(id)
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder }
 
-  const data = await res.json()
+    const res = await fetch(`http://localhost:8000/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updTask),
+    })
 
-  setTasks(tasks.map((task) => task.id === id ?
-  {...task, reminder: data.reminder} : task)
+    const data = await res.json()
+
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: data.reminder } : task
+      )
+    )
+  }
+
+  return (
+    <Router>
+      <div className='container'>
+        <Header
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask}
+        />
+        <Route
+          path='/'
+          exact
+          render={(props) => (
+            <>
+              {showAddTask && <AddTask onAdd={addTask} />}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toggleReminder}
+                />
+              ) : (
+                'No Tasks To Show'
+              )}
+            </>
+          )}
+        />
+        <Route path='/about' component={About} />
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
-  return (
-    <taskProvider setTasks={() => setTasks} >
-    <Router>
-    <div className="container">
-      <Header onAdd={() => setShowAddTask(!ShowAddTask)} showAdd={ShowAddTask} />
-      <Route path='/' exact render={(props) => (
-        <>
-          {ShowAddTask && <AddTask onAdd={addTask} />}
-      {tasks.length > 0 ?
-      (<Tasks tasks={tasks} onDelete=
-      {deleteTask} onToggle={toggleReminder} />) : ('No Tasks To Show')}
-        </>
-      )} />
-      <Route path='/about' component={About} />
-      <Footer />
-    </div>
-    </Router>
-    </taskProvider>
-  );
-}
-
-export default App;
+export default App
