@@ -3,7 +3,7 @@ const Footer = () => {
     return (
         <footer>
             <p>Copyrights &copy; 2021</p>
-            <Link to="/about">About</Link>
+            <Link to="/about">About the App</Link>
         </footer>
     )
 }
