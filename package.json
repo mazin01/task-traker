@@ -1,6 +1,6 @@
 {
   "name": "task-traker",
-  "homepage": "./",
+  "homepage": "http://mazin01.github.io/task-traker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
